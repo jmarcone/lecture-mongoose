@@ -1,5 +1,7 @@
 const APIErrorHandler = (error, req, res, next) => {
-    res.json({error: error.message})
+    res
+        .status(error?.statusCode || 500)
+        .json({error: error.message})
 }
 
 export default APIErrorHandler;
