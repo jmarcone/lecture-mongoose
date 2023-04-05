@@ -96,7 +96,7 @@ export const findById = asyncHandler(async (req, res) => {
 
     user.isUnderAge();
 
-    // user.populate("coworker")
+    //user.populate("coworker")
 
     res.json(user);
 

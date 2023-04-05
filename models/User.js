@@ -3,7 +3,7 @@ import addressSchema from "./Address.js";
 const { Schema, model } = mongoose;
 
 function checkName(value) {
-    if (name === "forbidenName")
+    if (value === "forbidenName")
         return false;
 
     return true;
