@@ -109,5 +109,5 @@ export const getCoworker = asyncHandler(async (req, res) => {
     if (!user)
         throw new Error("couldn't find user");
 
-    res.json(user.coworker);
+    res.json(user?.coworker);
 })
