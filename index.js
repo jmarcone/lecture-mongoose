@@ -10,8 +10,6 @@ const app = Express();
 app.use(Express.json()); 
 
 app.use("/api/user", userRoutes);
-
-
 app.use(APIErrorHandler);
 
 app.listen(PORT, () =>  console.log(`Server running on port ${PORT}`))
