@@ -8,12 +8,14 @@ export const findAll = async (req, res) => {
 }
 
 export const create = asyncHandler(async (req, res) => {
-    const { body: { name, first_name, email } } = req;
+    const { body: { name, first_name, email, age, coworker } } = req;
 
     const newUser = {
         name: name,
         first_name: first_name,
-        email: email
+        email: email,
+        age: age,
+        coworker: coworker
     }
 
     const user = await User.create(newUser);
@@ -26,19 +28,30 @@ export const create = asyncHandler(async (req, res) => {
 export const getByName = asyncHandler(async (req, res) => {
     const { params: { name } } = req;
 
-    const users = await User.find(
-        {
-            $or: [
-                { name: new RegExp(name, "i") },
-                { first_name: new RegExp(name, "i") },
-            ]
-        }
-    );
+    // const user = await User.findOne(
+    //     {
+    //         $or: [
+    //             { name: new RegExp(name, "i") },
+    //             { first_name: new RegExp(name, "i") },
+    //         ]
+    //     }
+    // );
+
+
+    const users = await User
+        .where("age")
+        .gt(10)
+        .select("name age")
+        .limit(1)
+
+    users[0].age = 80;
+
+    users[0].save();
 
     console.log(users);
 
-    if (users.length === 0)
-        throw new Error("no user matching the provided name")
+    // if (users.length === 0)
+    //     throw new Error("no user matching the provided name")
 
     res.json(users);
 });
@@ -66,9 +79,25 @@ export const update = asyncHandler(async (req, res) => {
 export const deleteOne = asyncHandler(async (req, res) => {
     const { params: { id } } = req;
     const deletedUser = await User.findByIdAndDelete(id);
+
     if (!deletedUser)
         throw new Error("couldn't find user to be deleted");
 
     res.json(deletedUser);
+
+})
+
+export const findById = asyncHandler(async (req, res) => {
+    const { params: { id } } = req;
+    const user = await User.findById(id);
+
+    if (!user)
+        throw new Error("couldn't find user");
+
+    user.isUnderAge();
+
+    // user.populate("coworker")
+
+    res.json(user);
 
 })

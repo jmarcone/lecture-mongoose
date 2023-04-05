@@ -8,11 +8,12 @@ userRoutes
     .get(userController.findAll)
     .post(userController.create)
 
-userRoutes
-    .get("/find-by-name/:name", userController.getByName)
+
+userRoutes.get("/find-by-name/:name", userController.getByName)
 
 userRoutes
     .route("/:id")
+    .get(userController.findById)
     .put(userController.update)
     .delete(userController.deleteOne)
 
