@@ -8,7 +8,7 @@ userRoutes
     .get(userController.findAll)
     .post(userController.create)
 
-
+userRoutes.get("/:id/get-coworker", userController.getCoworker)
 userRoutes.get("/find-by-name/:name", userController.getByName)
 
 userRoutes
@@ -16,5 +16,7 @@ userRoutes
     .get(userController.findById)
     .put(userController.update)
     .delete(userController.deleteOne)
+
+
 
 export default userRoutes;

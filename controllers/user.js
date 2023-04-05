@@ -89,15 +89,25 @@ export const deleteOne = asyncHandler(async (req, res) => {
 
 export const findById = asyncHandler(async (req, res) => {
     const { params: { id } } = req;
-    const user = await User.findById(id);
+
+    const user = await User.findById(id)
+
+    if (!user)
+        throw new Error("couldn't find user");
+    
+    if(user.isUnderAge())
+        throw new Error("user is underage");
+
+    res.json(user);
+})
+
+export const getCoworker = asyncHandler(async (req, res) => {
+    const { params: { id } } = req;
+
+    const user = await User.findById(id).populate("coworker");
 
     if (!user)
         throw new Error("couldn't find user");
 
-    user.isUnderAge();
-
-    //user.populate("coworker")
-
-    res.json(user);
-
+    res.json(user.coworker);
 })
